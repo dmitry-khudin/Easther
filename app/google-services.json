@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "568163621473",
+    "firebase_url": "https://rewarding-2ba5a.firebaseio.com",
+    "project_id": "rewarding-2ba5a",
+    "storage_bucket": "rewarding-2ba5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568163621473:android:0b2c458509d170c0",
+        "android_client_info": {
+          "package_name": "com.tyvip.rewarding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568163621473-um1sj9d8km59oksrih1tg1e0oeq9eqti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF7Jf1xqcsZA0DaBFc6ozD4IrnToahmbI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

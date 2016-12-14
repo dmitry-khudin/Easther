@@ -1,0 +1,15 @@
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_action_tab_home"
+        
+        title="Songs" />
+    <tab
+        id="@+id/tab_artist"
+        icon="@drawable/ic_action_tab_boxa"
+        title="Artists" />
+    <tab
+        id="@+id/tab_feedback"
+        icon="@drawable/ic_action_tab_card"
+        title="Feedback" />
+</tabs>

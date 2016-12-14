@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tyvip.rewarding.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id = "@+id/frame"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:id = "@+id/bottom_bar"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_action_tab_boxa"
+            android:id="@+id/imageButton4"
+            android:scaleType="fitXY"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_action_tab_home"
+            android:id="@+id/imageButton3"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="12dp"
+            android:layout_alignTop="@+id/imageButton4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="12dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_action_tab_card"
+            android:id="@+id/imageButton6"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:layout_marginRight="11dp"
+            android:layout_alignTop="@+id/imageButton4"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
