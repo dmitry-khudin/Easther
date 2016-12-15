@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.tyvip.rewarding.Adapters.BoxAdapter;
 import com.tyvip.rewarding.Adapters.FindAdapter;
 import com.tyvip.rewarding.MainActivity;
@@ -95,25 +97,55 @@ public class FindResultFragment extends Fragment {
             }
         });
         listView = (ListView) mainView.findViewById(R.id.listview);
-        GetData();
+        PostLocation();
         return mainView;
 
+    }
+    ProgressDialog pDialog;
+    private void PostLocation()
+    {
+
+        pDialog = new ProgressDialog(mainView.getContext());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        String str = Util.GetStringFromReference(mainView.getContext(), Constants.USER_DATA);
+        String url = Constants.GETLOCATION_URL;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONObject jsonUser = new JSONObject(str);
+            jsonObject.put("userid", jsonUser.getInt("userid"));
+            jsonObject.put("userbid", jsonUser.getInt("userbid"));
+            jsonObject.put("lat", Constants.user_latitude);
+            jsonObject.put("lng", Constants.user_longitude);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("tag", response.toString());
+
+                           GetData();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("tag", "ErrorLocation: " + error.getMessage());
+
+                GetData();
+            }
+        }) ;
+        VipApplication.getInstance().addToRequestQueue(jsonObjReq, "location");
     }
     private void GetData()
     {
         String boxdata = Util.GetStringFromReference(mainView.getContext(), Constants.BOXA_DATA);
-        if (!Util.isConnection(mainView.getContext()))
-        {
-            if (boxdata.equals("")) return;
-            try {
-                JSONArray jsonArray = new JSONArray(boxdata);
-                BoxAdapter adapter = new BoxAdapter(mainView.getContext(), jsonArray);
-                listView.setAdapter(adapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
+
         final String tag_json_arry = "json_array_req";
         String str = Util.GetStringFromReference(mainView.getContext(), Constants.USER_DATA);
         String url = "";
@@ -128,9 +160,6 @@ public class FindResultFragment extends Fragment {
         }
 
 
-        final ProgressDialog pDialog = new ProgressDialog(mainView.getContext());
-        pDialog.setMessage("Loading...");
-        pDialog.show();
 
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, url,
                 null,  new Response.Listener<JSONArray>() {

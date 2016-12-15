@@ -3,6 +3,7 @@ package com.tyvip.rewarding;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -204,7 +205,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(tag_json_obj, "ErrorLocation: " + error.getMessage());
                 pDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "FCM error!", Toast.LENGTH_SHORT).show();
+                if (switchCompat.isChecked())
+                    Util.SaveStringToReference(LoginActivity.this, "1", Constants.LOGINED);
+                else Util.SaveStringToReference(LoginActivity.this, "0", Constants.LOGINED);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                pDialog.dismiss();
+
+//                Toast.makeText(getApplicationContext(), "FCM error!", Toast.LENGTH_SHORT).show();
             }
         }) ;
         VipApplication.getInstance().addToRequestQueue(jsonObjReq, "FCM");
@@ -220,6 +229,7 @@ public class LoginActivity extends AppCompatActivity {
             jsonObject.put("userbid", jsonUser.getInt("userbid"));
             jsonObject.put("lat", Constants.user_latitude);
             jsonObject.put("lng", Constants.user_longitude);
+            Log.d("locati",  Constants.user_latitude + " " +  Constants.user_latitude);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -237,9 +247,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
+//                pDialog.dismiss();
                 VolleyLog.d(tag_json_obj, "ErrorLocation: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Sign In error!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Sign In error!", Toast.LENGTH_SHORT).show();
+                PostFCM();
             }
         }) ;
         VipApplication.getInstance().addToRequestQueue(jsonObjReq, "location");
@@ -268,7 +279,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        if (!Util.isConnection(this)) return;
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, param,
                 new Response.Listener<JSONObject>() {
@@ -286,8 +297,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(tag_json_obj, "ErrorLogin: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "You enterned wrong number or password!", Toast.LENGTH_SHORT).show();
                 pDialog.dismiss();
+//                PostLocation();
+                Toast.makeText(getApplicationContext(), "You enterned wrong number or password!", Toast.LENGTH_SHORT).show();
+
             }
         }) ;
 
@@ -295,7 +308,36 @@ public class LoginActivity extends AppCompatActivity {
         VipApplication.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
+    private void showdialog()
+    {
+        pDialog.show();
+    }
+    private void hidedialog()
+    {
+        pDialog.dismiss();
+    }
+    class PostTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected void onPreExecute() {
 
+            showdialog();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+//            UpdateTripPost();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            hidedialog();
+        }
+    }
+
+    private void login()
+    {}
 
     public void OnJoin(View view)
     {

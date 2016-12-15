@@ -41,7 +41,7 @@ import org.json.JSONObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationBar.OnTabSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private static BottomNavigationBar mBottomNavigationBar;
     private static HomeFragment homeFragment = null;
@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity
         Util.SaveStringToReference(this, "", Constants.USER_DATA);
         Util.SaveStringToReference(this, "", Constants.LOGINED);
         Intent intent = new Intent(this, SignInActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
@@ -364,18 +365,4 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onTabSelected(int position) {
-        ReplaceFragment(position);
-    }
-
-    @Override
-    public void onTabUnselected(int position) {
-
-    }
-
-    @Override
-    public void onTabReselected(int position) {
-
-    }
 }

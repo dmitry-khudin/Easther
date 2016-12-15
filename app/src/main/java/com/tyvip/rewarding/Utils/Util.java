@@ -12,6 +12,7 @@ import com.android.volley.toolbox.ImageLoader;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -41,7 +42,29 @@ public class Util {
        return value;
 
     }
-
+    public static boolean checkOnlineState(Context context) {
+        ConnectivityManager CManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo NInfo = CManager.getActiveNetworkInfo();
+        if (NInfo != null && NInfo.isConnectedOrConnecting()) {
+            try {
+                if (InetAddress.getByName("www.google.com").isReachable(1000))
+                {
+                    // host reachable
+                    return true;
+                }
+                else
+                {
+                    // host not reachable
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
     public static Boolean isOnline() {
         try {
             Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
